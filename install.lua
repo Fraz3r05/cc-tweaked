@@ -1,6 +1,6 @@
 -- install: wget run https://raw.githubusercontent.com/Fraz3r05/cc-tweaked/refs/heads/main/install.lua
 -- update:  install
--- git add .; git commit -m "update"; git push
+-- git add . && git commit -m "update" && git push
 
 local scripts = {
     "install.lua",
