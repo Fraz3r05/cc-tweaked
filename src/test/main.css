@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    @apply text-primary-color-text;
+}
+
+html,
+body,
+#app {
+    @apply h-full w-full overflow-hidden dark:bg-primary-color-bg;
+}
+
+h1, h2, h3 {
+    @apply font-semibold;
+}
+
+h1 {
+    @apply text-primary-color-heading;
+}
+
+button {
+    @apply dark:bg-primary-color hover:dark:bg-primary-color-light text-primary-color-bg font-semibold p-3 rounded-lg;
+}
+
+a {
+    @apply text-primary-color hover:text-primary-color-light font-semibold cursor-pointer;
+}
+
+input {
+    @apply dark:bg-zinc-900
+}
+
+h1 { font-size: 32px;}
