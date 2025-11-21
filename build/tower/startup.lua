@@ -724,6 +724,7 @@ return ____exports
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
 function ____exports.main(self)
+    print("hi")
     local me = peripheral.wrap("down")
     local function getItemCount(self, itemName)
         local item = me:getItems({name = itemName})
