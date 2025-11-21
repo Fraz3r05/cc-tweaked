@@ -725,13 +725,6 @@ return ____exports
 local ____exports = {}
 function ____exports.main(self)
     print("hi")
-    local me = peripheral.wrap("down")
-    local function getItemCount(self, itemName)
-        local item = me:getItems({name = itemName})
-        return item[1].count
-    end
-    local itemName = "ae2:black_smart_dense_cable"
-    print(getItemCount(nil, "ae2:black_smart_dense_cable"))
 end
 return ____exports
  end,
