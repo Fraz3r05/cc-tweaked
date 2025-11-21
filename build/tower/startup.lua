@@ -724,7 +724,7 @@ return ____exports
 --[[ Generated with https://github.com/TypeScriptToLua/TypeScriptToLua ]]
 local ____exports = {}
 function ____exports.main(self)
-    print("hi")
+    print("hi2")
 end
 return ____exports
  end,
