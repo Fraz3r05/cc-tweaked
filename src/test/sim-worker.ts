@@ -31,5 +31,6 @@ Turtle.mainTurtle.inventory[0] = { name: "mysticalagradditions:insanium_farmland
 Turtle.mainTurtle.inventory[1] = { name: "ae2:fluix_glass_cable", amount: 143 * 2 };
 Turtle.mainTurtle.inventory[2] = { name: "ae2:growth_accelerator", amount: 60 * 2 };
 Turtle.mainTurtle.inventory[3] = { name: "ae2:black_smart_dense_cable", amount: 56 * 2 };
+Turtle.mainTurtle.inventory[4] = { name: "minecraft:coal", amount: 64 };
 
 import("./../ts/main");

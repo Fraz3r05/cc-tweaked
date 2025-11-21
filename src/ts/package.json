@@ -5,7 +5,7 @@
     "main": "src/ts/main.ts",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tstl"
+        "build": "cmd /c \"call build.bat\" && git add ../../build && git commit -m \"build new lua files\" && git push"
     },
     "devDependencies": {
         "typescript": "^5.1.0",

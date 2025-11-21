@@ -135,8 +135,6 @@ onMounted(async () => {
             box.position.set(block.x, block.y, block.z);
         }
     };
-
-    console.log("vue");
 });
 </script>
 

@@ -5,31 +5,44 @@ function waitForMs(ms: number) {
     while (Date.now() < time) {}
 }
 
-function placeAt(
-    x: number,
-    y: number,
-    z: number,
-    updateTurtle: () => void,
-    setBlock: (x: number, y: number, z: number, block: string) => void
-) {
-    if (Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].amount == 0) return false;
-
-    setBlock(x, y, z, Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].name);
-
-    if (reduceInventoryOnPlace) Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].amount--;
-    if (Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].amount == 0) {
-        Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].name = "";
-    }
-    updateTurtle();
-    return true;
-}
-
 const walkSpeed = 0.1;
 const turnSpeed = 0;
-const reduceInventoryOnPlace = false;
-const fuelUsage = 0;
+const fuelUsage = 1;
 
 export function mock(updateTurtle: () => void, setBlock: (x: number, y: number, z: number, block: string) => void) {
+    function addToInventory(slot: number, amount: number, itemName: string) {
+        if (amount < 0) {
+            if (itemName != Turtle.mainTurtle.inventory[slot].name) return { amount: 0, itemName: "" };
+            const retrieved = Math.min(-amount, Turtle.mainTurtle.inventory[slot].amount);
+            Turtle.mainTurtle.inventory[slot].amount -= retrieved;
+
+            if (Turtle.mainTurtle.inventory[slot].amount == 0)
+                Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].name = "";
+
+            updateTurtle();
+            return { amount: retrieved, itemName: itemName };
+        } else {
+            // TODO
+
+            updateTurtle();
+            return { amount: amount, itemName: itemName };
+        }
+    }
+
+    function placeAt(x: number, y: number, z: number) {
+        const retrievedBlock = addToInventory(
+            Turtle.mainTurtle.selectedSlot.value,
+            -1,
+            Turtle.mainTurtle.inventory[Turtle.mainTurtle.selectedSlot.value].name
+        );
+        if (retrievedBlock.amount == 0) return false;
+
+        setBlock(x, y, z, retrievedBlock.itemName);
+
+        updateTurtle();
+        return true;
+    }
+
     (globalThis as any).print = console.log;
     (globalThis as any).turtle = {
         forward: () => {
@@ -80,18 +93,14 @@ export function mock(updateTurtle: () => void, setBlock: (x: number, y: number, 
             return placeAt(
                 Turtle.mainTurtle.position.x + Turtle.cardinal[Turtle.mainTurtle.orientation.value].x,
                 Turtle.mainTurtle.position.y,
-                Turtle.mainTurtle.position.z + Turtle.cardinal[Turtle.mainTurtle.orientation.value].z,
-                updateTurtle,
-                setBlock
+                Turtle.mainTurtle.position.z + Turtle.cardinal[Turtle.mainTurtle.orientation.value].z
             );
         },
         placeDown: (text?: string) => {
             return placeAt(
                 Turtle.mainTurtle.position.x,
                 Turtle.mainTurtle.position.y - 1,
-                Turtle.mainTurtle.position.z,
-                updateTurtle,
-                setBlock
+                Turtle.mainTurtle.position.z
             );
         },
         getFuelLevel: () => Turtle.mainTurtle.fuelLevel.value,
@@ -101,7 +110,16 @@ export function mock(updateTurtle: () => void, setBlock: (x: number, y: number, 
         },
         getItemCount: (slotNum?: number): number =>
             Turtle.mainTurtle.inventory[slotNum != undefined ? slotNum - 1 : Turtle.mainTurtle.selectedSlot.value]
-                .amount
+                .amount,
+        refuel: (n: number) => {
+            if (n != 1) console.warn("not implemented for n != 1");
+            if (addToInventory(Turtle.mainTurtle.selectedSlot.value, -1, "minecraft:coal").amount == 1) {
+                Turtle.mainTurtle.fuelLevel.value += 80;
+                return true;
+            }
+
+            return false;
+        }
     } as unknown as typeof turtle;
 
     (globalThis as any).os = {

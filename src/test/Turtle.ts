@@ -13,7 +13,7 @@ export class Turtle {
     public position = reactive({ x: 0, y: 0, z: 0 });
     public orientation = ref(0);
     public inventory = reactive([] as { name: string; amount: number }[]);
-    public fuelLevel = ref(20000);
+    public fuelLevel = ref(80);
     public selectedSlot = ref(0);
 
     constructor() {
